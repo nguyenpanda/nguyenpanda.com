@@ -30,19 +30,19 @@ To keep the git history clean, heavy assets (High-res images, datasets) are deco
 git clone --recursive https://github.com/nguyenpanda/nguyenpanda.com.git
 cd nguyenpanda.com
 git submodule update --init --recursive
-uv add --editable ./lib/PandaHttpd
 ```
 
 **IMPORTANCE**: You must remove the `[tool.uv.workspace]` section in all submodule's `pyproject.toml`
 
 ```bash
+uv add --editable ./lib/PandaHttpd
 # Install dependencies (Recommended: uv)
 uv sync
 ```
 
 ### 2. Asset Synchronization
 
-You need the `GDRIVE_ID` to fetch the decoupled assets.
+You need the `GDRIVE_ID` to fetch the decoupled assets. This can be get from a public url Google Drive. For example, `https://drive.google.com/file/d/<your-access-id-here>/view?usp=sharing`
 
 ```bash
 # Downloads, cleans, and merges assets automatically
