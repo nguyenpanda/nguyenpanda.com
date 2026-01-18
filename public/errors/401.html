@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>401 | Unauthorized</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <style>
+        .error-hero { padding: 100px 0 60px; text-align: center; }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(180deg, #ffbd2e, #444); /* Yellow tint for warning */
+            -webkit-background-clip: text;
+			background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .error-msg { color: #ffbd2e; font-family: 'JetBrains Mono', monospace; margin-top: 20px; font-size: 1.2rem; }
+        .back-btn { margin-top: 40px; display: inline-block; }
+        .lock-icon { font-size: 3rem; color: #ffbd2e; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="background-glow" style="background: radial-gradient(circle, rgba(255, 189, 46, 0.1) 0%, rgba(0,0,0,0) 70%);"></div>
+    <div class="container">
+        
+        <header class="error-hero">
+            <div class="lock-icon"><i class="fas fa-lock"></i></div>
+            <h1 class="error-code glitch-text" data-text="401">401</h1>
+            <div class="error-msg">>> ACCESS_DENIED</div>
+            <p style="color: #888; max-width: 400px; margin: 20px auto;">
+                You do not have the necessary credentials to access this sector. Root privileges or a valid authentication token is required.
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <a href="/" class="social-btn back-btn" style="margin-top: 20px;">
+                    <i class="fas fa-home"></i> Return Home
+                </a>
+            </div>
+        </header>
+
+        <section class="terminal-box">
+            <div class="terminal-header">
+                <div class="buttons">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <span class="title">auth.log</span>
+            </div>
+            <div class="terminal-body">
+                <p><span class="prompt">root@nguyenpanda:~#</span> sudo access_secure_area</p>
+                <p>> Checking credentials...</p>
+                <p class="red-text" style="color:#ff5f56;">[FATAL] Authentication failed.</p>
+                <p>> User is not in the sudoers file. This incident will be reported.</p>
+                <p class="blink">_</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Ha Tuong Nguyen. Security Active.</p>
+        </footer>
+    </div>
+</body>
+</html>

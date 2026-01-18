@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gallery | nguyenpanda</title>
+	<meta name="description" content="Photo gallery - Personal photos, HPC lab, and events.">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="/public/styles/style.css">
+
+	<link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+	<link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-gallery">
+	<div class="background-glow"></div>
+	<div class="scanline"></div>
+
+	<div class="layout-wrapper">
+		<header id="global-header" class="global-header"></header>
+		<aside id="sidebar"></aside>
+
+		<main class="main-content">
+			<button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+				<i class="fas fa-bars"></i>
+			</button>
+
+			<div class="container">
+				<header class="hero page-header">
+					<div class="page-icon">
+						<i class="fas fa-images"></i>
+					</div>
+					<h1>/var/www/gallery</h1>
+					<p class="subtitle">Photos and visual memories</p>
+				</header>
+
+				<section class="content-card">
+					<h2><i class="fas fa-filter"></i> Categories</h2>
+					<div class="gallery-categories" id="gallery-categories"></div>
+				</section>
+
+			<section class="content-card">
+				<div id="pagination-controls"></div>
+			</section>
+
+			<section class="content-card">
+				<h2><i class="fas fa-th"></i> Photos</h2>
+				<div class="gallery-grid" id="gallery-grid"></div>
+			</section>
+
+				<footer></footer>
+			</div>
+		</main>
+	</div>
+
+	<!-- Lightbox -->
+	<div id="lightbox"></div>
+
+	<script src="/public/scripts/utils.js"></script>
+	<script src="/public/scripts/modules/yaml.js"></script>
+	<script src="/public/scripts/modules/theme.js"></script>
+	<script src="/public/scripts/modules/sidebar.js"></script>
+	<script src="/public/scripts/modules/gallery.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', async () => {
+			await initSidebarModule();
+			await initGalleryModule();
+		});
+	</script>
+</body>
+
+</html>

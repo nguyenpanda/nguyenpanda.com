@@ -1,0 +1,3 @@
+[submodule "lib/PandaHttpd"]
+	path = lib/PandaHttpd
+	url = https://github.com/nguyenpanda/PandaHttpd.git

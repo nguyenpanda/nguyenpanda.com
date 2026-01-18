@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portal | nguyenpanda</title>
+	<meta name="description" content="Subdomains and services portal for nguyenpanda.com">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="/public/styles/style.css">
+
+	<link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+	<link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-portal">
+	<div class="background-glow"></div>
+	<div class="scanline"></div>
+
+	<div class="layout-wrapper">
+		<header id="global-header" class="global-header"></header>
+		<aside id="sidebar"></aside>
+
+		<main class="main-content">
+			<button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+				<i class="fas fa-bars"></i>
+			</button>
+
+			<div class="container">
+				<header class="hero page-header">
+					<div class="page-icon">
+						<i class="fas fa-globe"></i>
+					</div>
+					<h1>/var/www/portal</h1>
+					<p class="subtitle">Subdomains and services</p>
+				</header>
+
+				<section class="content-card">
+					<h2><i class="fas fa-server"></i> All Services</h2>
+					<div class="portal-grid" id="portal-container"></div>
+				</section>
+
+				<footer></footer>
+			</div>
+		</main>
+	</div>
+
+	<script src="/public/scripts/utils.js"></script>
+	<script src="/public/scripts/modules/yaml.js"></script>
+	<script src="/public/scripts/modules/theme.js"></script>
+	<script src="/public/scripts/modules/sidebar.js"></script>
+	<script>
+		let portalData = null;
+
+		async function loadPortalData() {
+			try {
+				// Use fetchData from yaml.js (YAML with JSON fallback)
+				portalData = await fetchData('/public/data/portal');
+				renderPortals();
+			} catch (error) {
+				console.error('Error loading portal data:', error);
+			}
+		}
+
+		function renderPortals() {
+			const container = document.getElementById('portal-container');
+			if (!container || !portalData) return;
+
+			container.innerHTML = portalData.portals.map(portal => {
+				const statusInfo = portalData.statusLabels[portal.status] || { label: portal.status, color: '#888' };
+
+				return `
+                    <a href="${portal.url}" target="_blank" rel="noopener noreferrer" class="portal-card">
+                        <div class="portal-header">
+                            <div class="portal-icon">
+                                <i class="${portal.icon.startsWith('fab') ? portal.icon : 'fas ' + portal.icon}"></i>
+                            </div>
+                            <span class="portal-status ${portal.status}">${statusInfo.label}</span>
+                        </div>
+                        <h3 class="portal-name">${portal.name}</h3>
+                        <p class="portal-description">${portal.description}</p>
+                    </a>
+                `;
+			}).join('');
+		}
+
+		document.addEventListener('DOMContentLoaded', async () => {
+			await initSidebarModule();
+			await loadPortalData();
+		});
+	</script>
+</body>
+
+</html>

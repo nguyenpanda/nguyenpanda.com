@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research | nguyenpanda</title>
+    <meta name="description"
+        content="Research publications and papers by Ha Tuong Nguyen in HPC, GPU computing, and parallel systems.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/styles/style.css">
+
+    <link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+    <link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-research">
+    <div class="background-glow"></div>
+    <div class="scanline"></div>
+
+    <div class="layout-wrapper">
+        <header id="global-header" class="global-header"></header>
+        <aside id="sidebar"></aside>
+
+        <main class="main-content">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="container">
+                <header class="hero page-header">
+                    <div class="page-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h1>/var/www/research</h1>
+                    <p class="subtitle">Publications, papers, and academic contributions</p>
+                </header>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-graduation-cap"></i> Research Focus</h2>
+                    <p>
+                        My research centers around <strong>High-Performance Computing</strong>, specifically
+                        load balancing algorithms for heterogeneous systems, GPU optimization techniques,
+                        and parallel computing paradigms. I'm exploring novel approaches to work-stealing
+                        and task scheduling on GPUs.
+                    </p>
+                </section>
+
+                <section class="content-card stats-card">
+                    <h2><i class="fas fa-chart-bar"></i> Statistics</h2>
+                    <div id="research-stats"></div>
+                </section>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-filter"></i> Filter & Sort</h2>
+                    <div class="research-filters">
+                        <div class="research-filter-group">
+                            <span class="filter-label">Sort:</span>
+                            <select id="research-sort" class="research-sort-select" onchange="applyResearchFilters()"
+                                title="Sort research papers">
+                                <option value="newest">Newest First</option>
+                                <option value="oldest">Oldest First</option>
+                                <option value="title">By Title</option>
+                            </select>
+                        </div>
+                        <div class="research-filter-group hpc-toggle">
+                            <span class="hpc-toggle-label">HPC Only:</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="hpc-only-toggle" onchange="applyResearchFilters()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="research-filters" class="keyword-filters"></div>
+                </section>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-file-alt"></i> All Research Papers & Publications</h2>
+                    <div class="research-list" id="research-container"></div>
+                </section>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-flask"></i> Research Interests</h2>
+                    <div class="interest-grid">
+                        <div class="interest-item">
+                            <i class="fas fa-microchip"></i>
+                            <h4>GPU Computing</h4>
+                            <p>CUDA kernel optimization, memory coalescing, warp efficiency</p>
+                        </div>
+                        <div class="interest-item">
+                            <i class="fas fa-balance-scale"></i>
+                            <h4>Load Balancing</h4>
+                            <p>Work-stealing, dynamic task scheduling, heterogeneous systems</p>
+                        </div>
+                        <div class="interest-item">
+                            <i class="fas fa-project-diagram"></i>
+                            <h4>Parallel Algorithms</h4>
+                            <p>MPI, OpenMP, hybrid parallelization strategies</p>
+                        </div>
+                        <div class="interest-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <h4>Performance Engineering</h4>
+                            <p>Profiling, cache optimization, vectorization</p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer></footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="/public/scripts/utils.js"></script>
+    <script src="/public/scripts/modules/yaml.js"></script>
+    <script src="/public/scripts/modules/theme.js"></script>
+    <script src="/public/scripts/modules/sidebar.js"></script>
+    <script src="/public/scripts/modules/stats.js"></script>
+    <script src="/public/scripts/script.js"></script>
+    <script>
+        let currentResearchFilter = 'all';
+
+        function renderResearchFilters() {
+            const container = document.getElementById('research-filters');
+            if (!container || !siteData?.research) return;
+
+            // 1. Lấy tất cả keywords từ data vào Set (chưa có 'all')
+            const keywordSet = new Set();
+            siteData.research.forEach(r => {
+                if (r.keywords) r.keywords.forEach(k => keywordSet.add(k));
+            });
+
+            // 2. Chuyển thành mảng và Sort a-z (dùng localeCompare để sort chính xác hơn)
+            const sortedKeywords = Array.from(keywordSet).sort((a, b) => a.localeCompare(b));
+
+            // 3. Đưa 'all' lên đầu mảng
+            const finalKeywords = ['all', ...sortedKeywords];
+
+            container.innerHTML = finalKeywords.map(keyword => `
+                <button class="keyword-filter-btn ${keyword === currentResearchFilter ? 'active' : ''}" 
+                        onclick="filterResearchByKeyword('${keyword}')">
+                    ${keyword === 'all' ? 'All Topics' : keyword}
+                </button>
+            `).join('');
+        }
+
+        function filterResearchByKeyword(keyword) {
+            currentResearchFilter = keyword;
+            renderResearchFilters();
+            applyResearchFilters();
+        }
+
+        function applyResearchFilters() {
+            const container = document.getElementById('research-container');
+            if (!container || !siteData?.research) return;
+
+            const sortBy = document.getElementById('research-sort')?.value || 'newest';
+            const hpcOnly = document.getElementById('hpc-only-toggle')?.checked || false;
+
+            let items = [...siteData.research];
+
+            // Filter by keyword
+            if (currentResearchFilter !== 'all') {
+                items = items.filter(r => r.keywords?.includes(currentResearchFilter));
+            }
+
+            // Filter by HPC
+            if (hpcOnly) {
+                items = items.filter(r => r.isHPC);
+            }
+
+            // Sort
+            switch (sortBy) {
+                case 'newest':
+                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'oldest':
+                    items.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'title':
+                    items.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+            }
+
+            // Render
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No research papers match your filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="research-item ${item.isHPC ? 'hpc' : ''} ${item.isHighlight ? 'highlight' : ''}">
+                    <div class="research-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="research-info">
+                        <h4>
+                            ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>` : item.title}
+                        </h4>
+                        <div class="research-meta">
+                            <span class="venue">${item.venue}</span>
+                            <span class="divider">|</span>
+                            <span class="date">${formatDate(item.date)}</span>
+                            ${item.isHPC ? '<span class="hpc-badge"><i class="fas fa-microchip"></i> HPC</span>' : ''}
+                        </div>
+                        ${item.keywords ? `
+                            <div class="research-keywords">
+                                ${item.keywords.map(k => `<span class="keyword">${k}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initSidebarModule();
+
+            // Wait for siteData to load
+            setTimeout(() => {
+                if (typeof siteData !== 'undefined' && siteData?.research) {
+                    renderResearchStats(siteData.research);
+                    renderResearchFilters();
+                    applyResearchFilters();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

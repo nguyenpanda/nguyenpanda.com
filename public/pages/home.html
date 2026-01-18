@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nguyenpanda | HPC Researcher</title>
+    <meta name="description"
+        content="Ha Tuong Nguyen - HPC Researcher focusing on parallel computing, GPU optimization, and load balancing.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/styles/style.css">
+
+    <link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+    <link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-home">
+    <div class="background-glow"></div>
+    <div class="scanline"></div>
+
+    <div class="layout-wrapper">
+        <header id="global-header" class="global-header"></header>
+        <aside id="sidebar"></aside>
+
+        <main class="main-content">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="container">
+                <header class="hero">
+                    <div class="logo-container">
+                        <img src="/public/images/nguyenpanda/png/logo_black_bg.png" alt="nguyenpanda logo"
+                            class="main-logo">
+                    </div>
+
+                    <h1 id="main-title" data-value="Ha Tuong Nguyen">Ha Tuong Nguyen</h1>
+                    <p class="subtitle" id="typing-subtitle"></p>
+
+                    <div class="tags" id="tags-container"></div>
+
+                    <div class="system-controls">
+                        <button
+                            onclick="document.getElementById('cli-input').focus(); document.getElementById('terminal').scrollIntoView({behavior: 'smooth'})"
+                            class="sys-btn">
+                            <i class="fas fa-terminal"></i> Terminal Access
+                        </button>
+                        <a href="#contact" class="sys-btn secondary">
+                            <i class="fas fa-envelope"></i> Contact Me
+                        </a>
+                    </div>
+                </header>
+
+                <section id="about" class="content-card">
+                    <h2><i class="fas fa-user-secret"></i> /home/nguyenpanda/about.txt</h2>
+                    <div id="about-content"></div>
+                </section>
+
+                <section id="research" class="content-card">
+                    <h2><i class="fas fa-book"></i> /var/www/research (Highlights)</h2>
+                    <div class="research-list" id="research-container"></div>
+                    <div class="archive-container">
+                        <a href="/research#research-container" class="archive-btn">
+                            <i class="fas fa-box-archive"></i> View All Research Papers & Publications
+                        </a>
+                    </div>
+                </section>
+
+                <section id="projects" class="content-card">
+                    <h2><i class="fas fa-folder-open"></i> /var/www/projects (Highlights)</h2>
+                    <div class="project-grid" id="projects-container"></div>
+                    <div class="archive-container">
+                        <a href="/projects#projects-container" class="archive-btn">
+                            <i class="fas fa-code-branch"></i> View All Projects
+                        </a>
+                    </div>
+                </section>
+
+                <section class="terminal-box" id="terminal">
+                    <div class="terminal-header">
+                        <div class="buttons">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="title">bash --login (guest)</span>
+                    </div>
+                    <div class="terminal-body" id="terminal-output">
+                        <p>Welcome to NguyenPanda OS v1.0.0 (Stable)</p>
+                        <p>Type <span class="highlight">'help'</span> for a list of commands.</p>
+                        <br>
+                    </div>
+                    <div class="terminal-input-area">
+                        <span class="prompt">guest@nguyenpanda:~$</span>
+                        <input type="text" id="cli-input" spellcheck="false" autocomplete="off">
+                    </div>
+                </section>
+
+                <section id="contact" class="social-section"></section>
+
+                <footer></footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="/public/scripts/utils.js"></script>
+    <script src="/public/scripts/modules/yaml.js"></script>
+    <script src="/public/scripts/modules/theme.js"></script>
+    <script src="/public/scripts/modules/sidebar.js"></script>
+    <script src="/public/scripts/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initSidebarModule();
+        });
+    </script>
+</body>
+
+</html>

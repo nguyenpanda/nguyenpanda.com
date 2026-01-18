@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Projects | nguyenpanda</title>
+	<meta name="description"
+		content="Open source projects and side projects by Ha Tuong Nguyen - systems programming, AI, and web development.">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="/public/styles/style.css">
+
+	<link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+	<link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+	<link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-projects">
+	<div class="background-glow"></div>
+	<div class="scanline"></div>
+
+	<div class="layout-wrapper">
+		<header id="global-header" class="global-header"></header>
+		<aside id="sidebar"></aside>
+
+		<main class="main-content">
+			<button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+				<i class="fas fa-bars"></i>
+			</button>
+
+			<div class="container">
+				<header class="hero page-header">
+					<div class="page-icon">
+						<i class="fas fa-folder-open"></i>
+					</div>
+					<h1>/var/www/projects</h1>
+					<p class="subtitle">Open source projects, experiments, and side projects</p>
+				</header>
+
+				<section class="content-card stats-card">
+					<h2><i class="fas fa-chart-bar"></i> Statistics</h2>
+					<div id="project-stats"></div>
+				</section>
+
+				<section class="content-card">
+					<h2><i class="fas fa-sliders-h"></i> View Options</h2>
+					<div class="filter-row">
+						<div id="column-selector" class="column-selector"></div>
+						<div id="filter-container" class="filter-container"></div>
+					</div>
+				</section>
+
+				<section class="content-card">
+					<h2><i class="fas fa-code-branch"></i> All Projects</h2>
+					<div class="project-grid" id="projects-container"></div>
+				</section>
+
+				<footer></footer>
+			</div>
+		</main>
+	</div>
+
+	<script src="/public/scripts/utils.js"></script>
+	<script src="/public/scripts/modules/yaml.js"></script>
+	<script src="/public/scripts/modules/theme.js"></script>
+	<script src="/public/scripts/modules/sidebar.js"></script>
+	<script src="/public/scripts/modules/stats.js"></script>
+	<script src="/public/scripts/script.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', async () => {
+			await initSidebarModule();
+
+			// Wait for siteData to load, then render stats
+			setTimeout(() => {
+				if (typeof siteData !== 'undefined' && siteData?.projects) {
+					renderProjectStats(siteData.projects);
+				}
+			}, 500);
+		});
+	</script>
+</body>
+
+</html>

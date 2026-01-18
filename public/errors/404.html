@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Not Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/styles/style.css">
+    <style>
+        .error-hero { padding: 100px 0 60px; text-align: center; }
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(180deg, #fff, #444);
+            -webkit-background-clip: text;
+			background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.8;
+        }
+        .error-msg { color: var(--accent); font-family: 'JetBrains Mono', monospace; margin-top: 20px; font-size: 1.2rem; }
+        .back-btn { margin-top: 40px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="background-glow" style="background: radial-gradient(circle, rgba(255, 95, 86, 0.1) 0%, rgba(0,0,0,0) 70%);"></div>
+    <div class="container">
+        
+        <header class="error-hero">
+            <h1 class="error-code glitch-text" data-text="404">404</h1>
+            <div class="error-msg">>> ERR_OBJECT_NOT_FOUND</div>
+            <p style="color: #888; max-width: 400px; margin: 20px auto;">
+                The requested resource could not be found on this server. It might have been moved to another memory block or deleted.
+            </p>
+            
+            <a href="/" class="social-btn back-btn">
+                <i class="fas fa-undo"></i> Return to Home
+            </a>
+        </header>
+
+        <section class="terminal-box">
+            <div class="terminal-header">
+                <div class="buttons">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <span class="title">error.log</span>
+            </div>
+            <div class="terminal-body">
+                <p><span class="prompt">root@nguyenpanda:~#</span> cat /var/log/syslog | grep error</p>
+                <p class="red-text" style="color:#ff5f56;">[ERROR] FileSystemException: Path does not exist.</p>
+                <p>> Location: <span id="path-display" style="color: #fff;">/unknown</span></p>
+                <p>> Action: Terminating request...</p>
+                <p class="blink">_</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Ha Tuong Nguyen. System Normal.</p>
+        </footer>
+    </div>
+    <script>
+        // Simple script to show the user which path failed
+        document.getElementById('path-display').innerText = window.location.pathname;
+    </script>
+</body>
+</html>

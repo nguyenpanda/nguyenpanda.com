@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive | nguyenpanda</title>
+    <meta name="description" content="Archive of resources - PDFs, sheets, videos, and links.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/styles/style.css">
+
+    <link rel="icon" type="image/png" href="/public/images/nguyenpanda/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/public/images/nguyenpanda/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/public/images/nguyenpanda/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/images/nguyenpanda/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="nguyenpanda.com" />
+    <link rel="manifest" href="/public/images/nguyenpanda/favicon/site.webmanifest" />
+</head>
+
+<body id="page-archive">
+    <div class="background-glow"></div>
+    <div class="scanline"></div>
+
+    <div class="layout-wrapper">
+        <header id="global-header" class="global-header"></header>
+        <aside id="sidebar"></aside>
+
+        <main class="main-content">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="container">
+                <header class="hero page-header">
+                    <div class="page-icon">
+                        <i class="fas fa-box-archive"></i>
+                    </div>
+                    <h1>/var/www/archive</h1>
+                    <p class="subtitle">Resources, documents, and links</p>
+                </header>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-filter"></i> Filter & Search</h2>
+                    <div class="archive-filters">
+                        <input type="text" class="archive-search" id="archive-search" placeholder="Search resources...">
+                        <div id="archive-type-filters"></div>
+                    </div>
+                </section>
+
+                <section class="content-card">
+                    <h2><i class="fas fa-folder-open"></i> All Resources</h2>
+                    <div class="archive-list" id="archive-container"></div>
+                </section>
+
+                <footer></footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="/public/scripts/utils.js"></script>
+    <script src="/public/scripts/modules/yaml.js"></script>
+    <script src="/public/scripts/modules/theme.js"></script>
+    <script src="/public/scripts/modules/sidebar.js"></script>
+    <script>
+        let archiveData = null;
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        async function loadArchiveData() {
+            try {
+                // Use fetchData from yaml.js (YAML with JSON fallback)
+                archiveData = await fetchData('/public/data/archive');
+                renderArchiveFilters();
+                renderArchiveItems();
+            } catch (error) {
+                console.error('Error loading archive data:', error);
+            }
+        }
+
+        function renderArchiveFilters() {
+            const container = document.getElementById('archive-type-filters');
+            if (!container || !archiveData) return;
+
+            container.innerHTML = archiveData.categories.map(cat => `
+                <button class="gallery-category-btn ${cat.id === currentFilter ? 'active' : ''}" 
+                        onclick="filterArchive('${cat.id}')">
+                    <i class="fas ${cat.icon}"></i>
+                    <span>${cat.label}</span>
+                </button>
+            `).join('');
+        }
+
+        function filterArchive(type) {
+            currentFilter = type;
+            renderArchiveFilters();
+            renderArchiveItems();
+        }
+
+        function renderArchiveItems() {
+            const container = document.getElementById('archive-container');
+            if (!container || !archiveData) return;
+
+            const iconMap = {};
+            if (archiveData.categories) {
+                archiveData.categories.forEach(cat => {
+                    iconMap[cat.id] = cat.icon;
+                });
+            }
+
+            let items = archiveData.items;
+
+            if (currentFilter !== 'all') {
+                items = items.filter(item => item.type === currentFilter);
+            }
+
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                items = items.filter(item =>
+                    item.title.toLowerCase().includes(query) ||
+                    item.description.toLowerCase().includes(query) ||
+                    item.tags?.some(tag => tag.toLowerCase().includes(query))
+                );
+            }
+
+            items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="gallery-empty">
+                        <i class="fas fa-search"></i>
+                        <p>No resources found.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = items.map(item => {
+                const rawIcon = iconMap[item.type] || 'fa-file';
+                const finalIconClass = rawIcon.includes(' ') ? rawIcon : `fas ${rawIcon}`;
+
+                return `
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="archive-item">
+                        <div class="archive-icon ${item.type}">
+                            <i class="${finalIconClass}"></i>
+                        </div>
+                        <div class="archive-content">
+                            <h3 class="archive-title">${item.title}</h3>
+                            <p class="archive-description">${item.description}</p>
+                            <div class="archive-meta">
+                                <span class="archive-date">
+                                    <i class="fas fa-calendar"></i> ${formatDate(item.date)}
+                                </span>
+                                <div class="archive-tags">
+                                    ${item.tags?.sort().map(tag => `<span>${tag}</span>`).join('') || ''}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initSidebarModule();
+            await loadArchiveData();
+
+            // Search handler
+            const searchInput = document.getElementById('archive-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchQuery = e.target.value;
+                    renderArchiveItems();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+[project]
+name = "nguyenpanda-com"
+version = "0.0.0"
+description = "`nguyenpanda.com`"
+authors = [
+    { name = "Tuong Nguyen Ha", email = "hatuongnguyen@0107gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.12"
+dependencies = [
+    "gdown>=5.2.1",
+    "nguyenpanda>=1.0.0",
+    "nguyenpanda-httpd",
+    "python-dotenv>=1.2.1",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "memory-profiler>=0.61.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "lib/PandaHttpd",
+]
+
+[tool.uv.sources]
+nguyenpanda-httpd = { workspace = true, editable = true }
+

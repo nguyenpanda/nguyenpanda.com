@@ -1,0 +1,99 @@
+body {
+	background-color: #fdfbf7; /* Màu trắng kem */
+	font-family: 'Playfair Display', serif;
+	color: #4a3b32; /* Màu nâu cà phê đậm */
+	margin: 0;
+	padding: 20px;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+/* Khung chứa nội dung (Thẻ bài thơ) */
+.card {
+	background-color: #fff;
+	padding: 40px;
+	max-width: 600px;
+	width: 100%;
+	border-radius: 8px;
+	box-shadow: 0 10px 25px rgba(139, 69, 19, 0.15); /* Bóng đổ mềm */
+	border: 1px solid #e8e0d5;
+	text-align: center;
+	position: relative;
+}
+
+/* Đường viền trang trí bên trong */
+.card::before {
+	content: "";
+	position: absolute;
+	top: 10px; left: 10px; right: 10px; bottom: 10px;
+	border: 2px solid #8b4513;
+	border-radius: 4px;
+	opacity: 0.3;
+	pointer-events: none;
+}
+
+/* Tiêu đề chính */
+h1 {
+	font-family: 'Dancing Script', cursive; /* Font viết tay */
+	color: #8b4513;
+	font-size: 2.5rem;
+	margin-bottom: 10px;
+	margin-top: 0;
+}
+
+/* Đoạn thơ */
+.poem {
+	font-size: 1.15rem;
+	line-height: 1.8;
+	margin: 30px 0;
+	font-style: italic;
+	color: #2c1e16;
+}
+
+/* Làm nổi bật tên */
+.highlight {
+	color: #c0392b; /* Màu đỏ đô */
+	font-weight: bold;
+	font-style: normal;
+}
+
+/* Chú thích nhỏ */
+.caption {
+	font-size: 0.9rem;
+	color: #888;
+	margin-bottom: 25px;
+	display: block;
+}
+
+/* Hình ảnh responsive */
+.image-frame {
+	padding: 10px;
+	background: white;
+	border: 1px solid #ddd;
+	box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+	display: inline-block;
+	transform: rotate(-2deg); /* Nghiêng nhẹ tạo cảm giác ảnh in */
+	transition: transform 0.3s ease;
+}
+
+.image-frame:hover {
+	transform: rotate(0deg) scale(1.02);
+}
+
+img {
+	max-width: 100%; /* Ảnh tự co lại nếu màn hình nhỏ */
+	height: auto;
+	display: block;
+	filter: sepia(20%) contrast(1.1); /* Hiệu ứng màu cổ điển */
+}
+
+/* Điều chỉnh cho màn hình điện thoại */
+@media (max-width: 480px) {
+	body { padding: 10px; }
+	.card { padding: 25px 15px; }
+	h1 { font-size: 2rem; }
+	.poem { font-size: 1rem; }
+}

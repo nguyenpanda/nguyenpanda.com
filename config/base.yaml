@@ -1,0 +1,36 @@
+name: nguyenpanda.com
+root: $(parent $(conf_dir))
+ip: 127.0.0.1
+# ip: $(get_ip_addresses) # Uncomment to auto-detect IP addresses
+http_port: 8080
+start_time: $(now)
+root_url: http://$ip:$http_port
+
+logger:
+  name: $name
+  log_file: server.log
+  config_file: config.yaml
+  level: DEBUG
+  save_dir: $root/logs/$(strftime $start_time %y%m%d-%H%M%S)
+
+server:
+  domain: $name
+  ip: $ip
+  port: $http_port
+  protocol: http
+  logger: $name
+  listen: 10000
+  _core: $(max_cores physical)
+  max_workers: $(multiply $(int $_core) 5)
+
+  mount:
+    base: $root
+    public: $root/public
+    components: $public/components
+    template: $public/templates
+    errors: $public/errors
+    fonts: $public/fonts
+    images: $public/images
+    pages: $public/pages
+    scripts: $public/scripts
+    styles: $public/styles
