@@ -28,4 +28,5 @@ members = [
 
 [tool.uv.sources]
 nguyenpanda-httpd = { workspace = true, editable = true }
+# nguyenpanda-httpd = { path = "../../model/PandaHttpd", editable = true }
 

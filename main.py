@@ -5,6 +5,7 @@ from src.nguyenpanda_com import (
 )
 
 from PandaHttpd import http, PandaHttpd, StaticFiles
+from PandaHttpd.middleware import GZipMiddleware
 from pathlib import Path
 
 
@@ -18,6 +19,7 @@ mount_config = server_config['mount']
 app = PandaHttpd(
     config=server_config,
     logger=Logger(config['logger']),
+    middleware=[GZipMiddleware()],
 )
 app.logger.info(f'Loading `Configure` from `{Path(panda_config.conf_path).absolute()}`')
 
